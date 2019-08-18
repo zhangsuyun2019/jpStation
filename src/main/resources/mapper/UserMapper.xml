@@ -34,7 +34,7 @@
     delete from user
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.vocs.main.pojo.User">
+  <insert id="insert" parameterType="com.vocs.main.pojo.User" keyProperty="id" useGeneratedKeys="true">
     insert into user (id, login_name, password, 
       user_name, company, position, 
       phone, mobile_phone, email, 
@@ -48,7 +48,7 @@
       #{openid,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updater,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.vocs.main.pojo.User">
+  <insert id="insertSelective" parameterType="com.vocs.main.pojo.User" keyProperty="id" useGeneratedKeys="true">
     insert into user
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

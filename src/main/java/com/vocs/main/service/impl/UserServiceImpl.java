@@ -2,8 +2,11 @@ package com.vocs.main.service.impl;
 
 
 import com.vocs.main.bean.UserDto;
+import com.vocs.main.bean.UserIntegralDto;
+import com.vocs.main.mapper.UserIntegralMapper;
 import com.vocs.main.mapper.UserMapper;
 import com.vocs.main.pojo.User;
+import com.vocs.main.pojo.UserIntegral;
 import com.vocs.main.service.UserService;
 import com.vocs.main.utils.MD5Util;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +24,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
     private UserMapper userMapper;
+
+	@Autowired
+	private UserIntegralMapper userIntegralMapper;
 
 
 	@Override
@@ -73,5 +79,30 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public boolean existsByLoginNameAnaPwd(UserDto record) {
 		return userMapper.existsByLoginNameAnaPwd(record) > 0 ? true : false;
+	}
+
+	@Override
+	public UserIntegralDto addIntegral(UserIntegral userIntegral) {
+		int id = userIntegralMapper.insertSelective(userIntegral);
+		if (id > 0) {
+			return userIntegralMapper.selectByPrimaryKey(id);
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public UserIntegralDto updateIntegral(UserIntegral userIntegral) {
+		int count = userIntegralMapper.updateByPrimaryKeySelective(userIntegral);
+		if (count > 0) {
+			return userIntegralMapper.selectByPrimaryKey(userIntegral.getId());
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public List<UserIntegralDto> searchIntegral(UserIntegralDto userIntegralDto) {
+		return userIntegralMapper.selectByCondition(userIntegralDto);
 	}
 }
