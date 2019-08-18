@@ -6,6 +6,7 @@ import com.vocs.main.bean.UserDto;
 import com.vocs.main.pojo.User;
 import com.vocs.main.response.BaseResponse;
 import com.vocs.main.service.UserService;
+import com.vocs.main.utils.MD5Util;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.security.MD5Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -163,7 +164,8 @@ public class UserController {
 			if (StringUtils.isEmpty(user.getPassword())) {
 				BaseResponse.fail("900", "参数'密码'不能为空");
 			}
-			user.setPassword(MD5Encoder.encode(user.getPassword().getBytes()));
+			String password = MD5Util.encodeByMd5(user.getPassword());
+			user.setPassword(password);
 			Boolean validateResult = userService.existsByLoginNameAnaPwd(user);
 			if (validateResult) {
 				result.setCode("000");
