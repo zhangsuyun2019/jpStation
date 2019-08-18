@@ -116,7 +116,7 @@ public class UserController {
 
 	/***
 	 * 删除用户
-	 * @param user
+	 * @param user 用户对象
 	 * @return
 	 */
 	@RequestMapping(value = "deleteUser", method = RequestMethod.POST)
