@@ -234,22 +234,25 @@ public class UserController {
 						//获取前一天的用户积分
 						List<UserIntegralDto> preList = null;
 						if (list.stream().anyMatch(q->sdf.format(q.getScordeDate()).equals(sdf.format(convertLocalDateToDate(preDay))))) {
-							preList = list.stream().filter(q->sdf.format(q.getScordeDate()).equals(sdf.format(convertLocalDateToDate(preDay)))).collect(Collectors.toList());
+							preList = list.stream()
+									.filter(q->sdf.format(q.getScordeDate()).equals(sdf.format(convertLocalDateToDate(preDay))))
+									.collect(Collectors.toList());
 						}
 						//获取当天用户积分
 						List<UserIntegralDto> nowList = null;
 						if (list.stream().anyMatch(q->sdf.format(q.getScordeDate()).equals(sdf.format(convertLocalDateToDate(now))))) {
-							nowList = list.stream().filter(q->sdf.format(q.getScordeDate()).equals(sdf.format(convertLocalDateToDate(now)))).collect(Collectors.toList());
+							nowList = list.stream()
+									.filter(q->sdf.format(q.getScordeDate()).equals(sdf.format(convertLocalDateToDate(now))))
+									.collect(Collectors.toList());
 						}
 						//如果当天积分不存在，那么就增加
 						if (null == nowList || nowList.isEmpty()) {
 							UserIntegral userIntegral = new UserIntegral();
 							userIntegral.setUserId(userDto.getId());
-							userIntegral.setScordeDate(convertLocalDateToDate(now));
+							userIntegral.setScordeDate(new Date());
 
 							if (null != preList && !preList.isEmpty()) {
 								userIntegral.setUpdater(loginUserName);
-								userIntegral.setUpdateTime(new Date());
 								userIntegral.setId(preList.get(0).getId());
 								userIntegral.setScore(preList.get(0).getScore() + 1);
 								userIntegral.setBalance(preList.get(0).getBalance());
@@ -260,7 +263,6 @@ public class UserController {
 								}
 							} else {
 								userIntegral.setCreator(loginUserName);
-								userIntegral.setCreateTime(new Date());
 								userIntegral.setBalance(new BigDecimal("0.00"));
 								userIntegral.setScore(1);
 								if (userService.addIntegral(userIntegral) != null) {
@@ -272,13 +274,10 @@ public class UserController {
 
 						}
 					} else {
-						//获取当前日期
-						LocalDate now = LocalDate.now();
 						UserIntegral userIntegral = new UserIntegral();
 						userIntegral.setUserId(userDto.getId());
-						userIntegral.setScordeDate(convertLocalDateToDate(now));
+						userIntegral.setScordeDate(new Date());
 						userIntegral.setCreator(loginUserName);
-						userIntegral.setCreateTime(new Date());
 						userIntegral.setScore(1);
 						userIntegral.setBalance(new BigDecimal("0.00"));
 						if (userService.addIntegral(userIntegral) != null) {
@@ -298,7 +297,7 @@ public class UserController {
 					//删除redis数据库
 					stringRedisTemplate.delete(REDIS_USER + loginUserName);
 				}
-				return BaseResponse.fail("900", "校验用户失败");
+				return BaseResponse.fail("900", "用户名或密码错误");
 			}
 		} catch (Exception e) {
 			result.setCode("900");
