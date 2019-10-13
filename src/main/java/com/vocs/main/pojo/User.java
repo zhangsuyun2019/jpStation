@@ -8,38 +8,37 @@ import java.util.Date;
 @Data
 @Table(name = "user")
 public class User {
-    private Integer id;
+  private Integer id;
 
-    private String loginName;
+  private String loginName;
 
-    private String password;
+  private String password;
 
-    private String userName;
+  private String userName;
 
-    private String company;
+  private String company;
 
-    private String position;
+  private String position;
 
-    private String phone;
+  private String phone;
 
-    private String mobilePhone;
+  private String mobilePhone;
 
-    private String email;
+  private String email;
 
-    private Integer age;
+  private Integer age;
 
-    private String nativePlace;
+  private String nativePlace;
 
-    private String workCity;
+  private String workCity;
 
-    private String openid;
+  private String openid;
 
-    private String creator;
+  private String creator;
 
-    private Date createTime;
+  private Date createTime;
 
-    private String updater;
+  private String updater;
 
-    private Date updateTime;
-
+  private Date updateTime;
 }
