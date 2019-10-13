@@ -36,6 +36,8 @@ public class User {
 
   private Boolean isAdmin;
 
+  private Boolean isMember;
+
   private String creator;
 
   private Date createTime;

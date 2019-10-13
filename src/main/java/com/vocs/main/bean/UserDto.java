@@ -46,6 +46,8 @@ public class UserDto {
 
   private Boolean isAdmin;
 
+  private Boolean isMember;
+
   private Integer pageNum;
 
   private Integer pageSize;
