@@ -1,45 +1,41 @@
 package com.vocs.main.service;
 
-import com.vocs.main.bean.UserDto;
-import com.vocs.main.bean.UserIntegralDto;
-import com.vocs.main.pojo.User;
-import com.vocs.main.pojo.UserIntegral;
+import com.vocs.main.bean.FilesDto;
+import com.vocs.main.pojo.Files;
 
 import java.util.List;
 
 public interface FileService {
 
-  int addUser(User user);
-
-  int updateUser(User user);
-
-  int deleteUser(Integer id);
-
-  List<UserDto> searchUser(UserDto record);
-
-  boolean existsByLoginNameAnaPwd(UserDto record);
-
   /**
-   * * 增加用户积分
+   * * 增加文件
    *
-   * @param userIntegral
+   * @param files 文件对象
    * @return
    */
-  UserIntegralDto addIntegral(UserIntegral userIntegral);
+  int addFile(Files files);
 
   /**
-   * * 更新用户积分
+   * * 更新文件
    *
-   * @param userIntegral
+   * @param files 文件对象
    * @return
    */
-  UserIntegralDto updateIntegral(UserIntegral userIntegral);
+  int updateFile(Files files);
 
   /**
-   * * 查询用户积分列表
+   * * 查询文件个数
    *
-   * @param userIntegralDto 查询对象
+   * @param filesDto 查询对象
    * @return
    */
-  List<UserIntegralDto> searchIntegral(UserIntegralDto userIntegralDto);
+  int searchCountFileList(FilesDto filesDto);
+
+  /**
+   * * 查询文件列表
+   *
+   * @param filesDto 查询对象
+   * @return
+   */
+  List<Files> searchFileList(FilesDto filesDto);
 }

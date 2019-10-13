@@ -11,7 +11,7 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, event_name, desc, creator, create_time, updater, update_time
+    id, event_name, `desc`, creator, create_time, updater, update_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -29,7 +29,7 @@
       update_time)
     values (#{id,jdbcType=INTEGER}, #{eventName,jdbcType=VARCHAR}, #{desc,jdbcType=VARCHAR}, 
       #{creator,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updater,jdbcType=VARCHAR}, 
-      #{updateTime,jdbcType=TIMESTAMP})
+      now())
   </insert>
   <insert id="insertSelective" parameterType="com.vocs.main.pojo.Events">
     insert into events
@@ -76,7 +76,7 @@
         #{updater,jdbcType=VARCHAR},
       </if>
       <if test="updateTime != null">
-        #{updateTime,jdbcType=TIMESTAMP},
+        now(),
       </if>
     </trim>
   </insert>
@@ -99,7 +99,7 @@
         updater = #{updater,jdbcType=VARCHAR},
       </if>
       <if test="updateTime != null">
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
+        update_time = now(),
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -111,7 +111,21 @@
       creator = #{creator,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       updater = #{updater,jdbcType=VARCHAR},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
+      update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectByCondition" parameterType="com.vocs.main.bean.EventsDto" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from events
+    where 1 = 1
+    <if test="eventName != null and eventName != ''">
+      and event_name like CONCAT(CONCAT('%',#{eventName}),'%')
+    </if>
+    <if test="desc != null">
+      and desc = #{desc,jdbcType=VARCHAR}
+    </if>
+    order by update_time desc limit 1
+  </select>
 </mapper>

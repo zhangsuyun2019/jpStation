@@ -20,6 +20,6 @@ public class EventServiceImpl implements EventService {
 
   @Override
   public List<Events> searchEventList(EventsDto eventsDto) {
-    return null;
+    return eventsMapper.selectByCondition(eventsDto);
   }
 }

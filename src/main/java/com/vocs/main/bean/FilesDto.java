@@ -24,4 +24,8 @@ public class FilesDto {
     private String updater;
 
     private Date updateTime;
+
+    private Integer pageNum = 1;//第几页，从1开始
+
+    private Integer pageSize = 1000;//每页记录数
 }

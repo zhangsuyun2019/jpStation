@@ -138,4 +138,23 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectCountByCondition" parameterType="com.vocs.main.bean.EventsDto" resultType="java.lang.Integer">
+    select count(1) records
+    from files
+    where 1 = 1
+    <if test="fileName != null and fileName != ''">
+      and file_name like CONCAT(CONCAT('%',#{fileName}),'%')
+    </if>
+  </select>
+
+  <select id="selectByCondition" parameterType="com.vocs.main.bean.EventsDto" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from files
+    where 1 = 1
+    <if test="fileName != null and fileName != ''">
+      and file_name like CONCAT(CONCAT('%',#{fileName}),'%')
+    </if>
+  </select>
 </mapper>
