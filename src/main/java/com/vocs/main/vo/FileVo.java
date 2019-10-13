@@ -9,4 +9,6 @@ public class FileVo {
 
   private String fileType;
 
+  private Integer userId;
+
 }
