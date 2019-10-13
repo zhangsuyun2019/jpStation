@@ -4,11 +4,10 @@ import com.vocs.main.bean.UserDto;
 import com.vocs.main.bean.UserIntegralDto;
 import com.vocs.main.pojo.User;
 import com.vocs.main.pojo.UserIntegral;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public interface UserService {
+public interface FileService {
 
   int addUser(User user);
 
