@@ -9,20 +9,19 @@ import java.util.List;
 @Mapper
 public interface UserMapper {
 
-    User selectByPrimaryKey(Integer id);
+  User selectByPrimaryKey(Integer id);
 
-    List<UserDto> selectByCondition(UserDto record);
+  List<UserDto> selectByCondition(UserDto record);
 
-    int insert(User record);
+  int insert(User record);
 
-    int insertSelective(User record);
+  int insertSelective(User record);
 
-    int updateByPrimaryKeySelective(User record);
+  int updateByPrimaryKeySelective(User record);
 
-    int updateByPrimaryKey(User record);
+  int updateByPrimaryKey(User record);
 
-    int deleteByPrimaryKey(Integer id);
+  int deleteByPrimaryKey(Integer id);
 
-    int existsByLoginNameAnaPwd(UserDto record);
-
+  int existsByLoginNameAnaPwd(UserDto record);
 }

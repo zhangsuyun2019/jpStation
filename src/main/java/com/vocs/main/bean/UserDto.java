@@ -1,54 +1,52 @@
 package com.vocs.main.bean;
 
-
 import lombok.Data;
 import lombok.ToString;
 
 import java.util.Date;
 
-/***
- *  用户对象
- */
+/** * 用户对象 */
 @Data
 @ToString
 public class UserDto {
 
-	private Integer id;
+  private Integer id;
 
-	private String loginName;
+  private String loginName;
 
-	private String password;
+  private String password;
 
-	private String userName;
+  private String userName;
 
-	private String company;
+  private String company;
 
-	private String position;
+  private String position;
 
-	private String phone;
+  private String phone;
 
-	private String mobilePhone;
+  private String mobilePhone;
 
-	private String email;
+  private String email;
 
-	private Integer age;
+  private Integer age;
 
-	private String nativePlace;
+  private String nativePlace;
 
-	private String workCity;
+  private String workCity;
 
-	private String openid;
+  private String openid;
 
-	private String creator;
+  private String creator;
 
-	private Date createTime;
+  private Date createTime;
 
-	private String updater;
+  private String updater;
 
-	private Date updateTime;
+  private Date updateTime;
 
-	private Integer pageNum;
+  private Boolean isAdmin;
 
-	private Integer pageSize;
+  private Integer pageNum;
 
+  private Integer pageSize;
 }

@@ -15,6 +15,7 @@
     <result column="native_place" jdbcType="VARCHAR" property="nativePlace" />
     <result column="work_city" jdbcType="VARCHAR" property="workCity" />
     <result column="openId" jdbcType="VARCHAR" property="openid" />
+    <result column="is_admin" jdbcType="BIT" property="isAdmin" />
     <result column="creator" jdbcType="VARCHAR" property="creator" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="updater" jdbcType="VARCHAR" property="updater" />
@@ -22,7 +23,7 @@
   </resultMap>
   <sql id="Base_Column_List">
     id, login_name, password, user_name, company, position, phone, mobile_phone, email, 
-    age, native_place, work_city, openId, creator, create_time, updater, update_time
+    age, native_place, work_city, openId, is_admin, creator, create_time, updater, update_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -39,13 +40,13 @@
       user_name, company, position, 
       phone, mobile_phone, email, 
       age, native_place, work_city, 
-      openId, creator, create_time, 
+      openId, is_admin, creator, create_time,
       updater, update_time)
     values (#{id,jdbcType=INTEGER}, #{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{userName,jdbcType=VARCHAR}, #{company,jdbcType=VARCHAR}, #{position,jdbcType=VARCHAR}, 
       #{phone,jdbcType=VARCHAR}, #{mobilePhone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{age,jdbcType=INTEGER}, #{nativePlace,jdbcType=VARCHAR}, #{workCity,jdbcType=VARCHAR}, 
-      #{openid,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{openid,jdbcType=VARCHAR}, #{openid,jdbcType=BIT}, #{creator,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
       #{updater,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.vocs.main.pojo.User" keyProperty="id" useGeneratedKeys="true">
@@ -89,6 +90,9 @@
       </if>
       <if test="openid != null">
         openId,
+      </if>
+      <if test="isAdmin != null">
+        is_admin,
       </if>
       <if test="creator != null">
         creator,
@@ -143,6 +147,9 @@
       <if test="openid != null">
         #{openid,jdbcType=VARCHAR},
       </if>
+      <if test="isAdmin != null">
+        #{isAdmin,jdbcType=BIT},
+      </if>
       <if test="creator != null">
         #{creator,jdbcType=VARCHAR},
       </if>
@@ -196,6 +203,9 @@
       <if test="openid != null">
         openId = #{openid,jdbcType=VARCHAR},
       </if>
+      <if test="isAdmin != null">
+        is_admin = #{isAdmin,jdbcType=BIT},
+      </if>
       <if test="creator != null">
         creator = #{creator,jdbcType=VARCHAR},
       </if>
@@ -225,6 +235,7 @@
       native_place = #{nativePlace,jdbcType=VARCHAR},
       work_city = #{workCity,jdbcType=VARCHAR},
       openId = #{openid,jdbcType=VARCHAR},
+      is_admin = #{isAdmin,jdbcType=BIT},
       creator = #{creator,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       updater = #{updater,jdbcType=VARCHAR},

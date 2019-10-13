@@ -34,6 +34,8 @@ public class User {
 
   private String openid;
 
+  private Boolean isAdmin;
+
   private String creator;
 
   private Date createTime;

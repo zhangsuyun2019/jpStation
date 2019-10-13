@@ -10,18 +10,18 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 @SpringBootApplication
 public class MainApplication extends SpringBootServletInitializer {
 
-    public static void main(String[] args) {
-        SpringApplication.run(MainApplication.class, args);
-    }
+  public static void main(String[] args) {
+    SpringApplication.run(MainApplication.class, args);
+  }
 
-    /***
-     * 为了打包springboot项目
-     * @param builder
-     * @return
-     */
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-        return builder.sources(this.getClass());
-    }
-
+  /**
+   * * 为了打包springboot项目
+   *
+   * @param builder
+   * @return
+   */
+  @Override
+  protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+    return builder.sources(this.getClass());
+  }
 }
