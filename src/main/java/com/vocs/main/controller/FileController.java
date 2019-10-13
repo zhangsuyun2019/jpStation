@@ -10,8 +10,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,8 +38,45 @@ public class FileController {
 
   @PostMapping("/upload")
   @ResponseBody
-  public String upload() {
-    return null;
+  public BaseResponse<String> upload(@RequestParam("file") MultipartFile file, Files files) {
+    log.info("**************上传文件开始****************");
+    try {
+      if (ObjectUtils.isEmpty(file)) {
+        return BaseResponse.fail("900", "文件不能为空");
+      }
+      String fileName = file.getOriginalFilename();
+      FilesDto filesDto = new FilesDto();
+      filesDto.setFileName(fileName);
+      List<Files> fileList = fileService.searchFileList(filesDto);
+      if (!CollectionUtils.isEmpty(fileList)) {
+        Files filesUpdate = fileList.get(0);
+        filesUpdate.setAmount(files.getAmount());
+        filesUpdate.setUploadDate(new Date());
+        filesUpdate.setUpdateTime(new Date());
+        int updateCount = fileService.updateFile(filesUpdate);
+        if (updateCount > 0) {
+          // 保存文件
+          file.transferTo(new File(filePath + fileName));
+          return BaseResponse.success("");
+        } else {
+          return BaseResponse.fail("900", "上传失败");
+        }
+      } else {
+        files.setFileName(fileName);
+        files.setCreateTime(new Date());
+        files.setUploadDate(new Date());
+        files.setUpdateTime(new Date());
+        int insertCount = fileService.addFile(files);
+        if (insertCount > 0) {
+          return BaseResponse.success("");
+        } else {
+          return BaseResponse.fail("900", "上传失败");
+        }
+      }
+    } catch (Exception e) {
+      log.error("upload exception:{}", e);
+      return BaseResponse.fail("900", "上传异常");
+    }
   }
 
   @RequestMapping(value = "getFilesByPage")
