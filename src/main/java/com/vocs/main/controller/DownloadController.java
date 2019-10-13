@@ -3,6 +3,7 @@ package com.vocs.main.controller;
 import com.github.pagehelper.util.StringUtil;
 import com.vocs.main.vo.FileVo;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,14 +21,16 @@ import java.io.*;
 @CrossOrigin
 public class DownloadController {
 
+  @Value("${uploadFile.filePath}")
+  private String filePath;
+
   @PostMapping("/files")
   @ResponseBody
   public String downLoad(HttpServletResponse response, @RequestBody FileVo FileVo) throws UnsupportedEncodingException {
     if (null == FileVo || StringUtil.isEmpty(FileVo.getFileName())) {
       return "文件名不能为空";
     }
-    String filePath = "/uploads";
-    File file = new File(filePath + "/" + FileVo.getFileName());
+    File file = new File(this.filePath + "/" + FileVo.getFileName());
     // 判断文件父目录是否存在
     if (file.exists()) {
       response.setCharacterEncoding("UTF-8");
