@@ -66,8 +66,11 @@ public class FileController {
         files.setCreateTime(new Date());
         files.setUploadDate(new Date());
         files.setUpdateTime(new Date());
+        files.setFileType(fileName.substring(fileName.lastIndexOf('.') + 1));
         int insertCount = fileService.addFile(files);
         if (insertCount > 0) {
+          // 保存文件
+          file.transferTo(new File(filePath + fileName));
           return BaseResponse.success("");
         } else {
           return BaseResponse.fail("900", "上传失败");
