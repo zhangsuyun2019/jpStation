@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.math.BigDecimal;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
 
@@ -41,7 +42,7 @@ public class DownloadController {
   @Value("${uploadFile.filePath}")
   private String filePath;
 
-  @PostMapping("/files")
+  @RequestMapping("/files")
   @ResponseBody
   public String downLoad(HttpServletResponse response, @RequestBody FileVo fileVo)
       throws UnsupportedEncodingException {
@@ -76,11 +77,9 @@ public class DownloadController {
       userIntegralDtoFinal.setBalance(
           balence.compareTo(BigDecimal.ZERO) > 0 ? balence : new BigDecimal("0.00"));
 
-      response.setCharacterEncoding("UTF-8");
-      response.setContentType("application/force-download");
-      response.setHeader(
-          "Content-Disposition",
-          "attachment;fileName=" + java.net.URLEncoder.encode(fileVo.getFileName(), "UTF-8"));
+      response.setContentType("application/force-download"); // 设置强制下载不打开
+      String excelFileName = URLEncoder.encode(fileVo.getFileName(), "UTF-8");
+      response.addHeader("Content-Disposition", "attachment;fileName=" + excelFileName); // 设置文件名
       byte[] buffer = new byte[1024];
       // 文件输入流
       FileInputStream fis = null;
@@ -97,6 +96,16 @@ public class DownloadController {
           os.write(buffer);
           i = bis.read(buffer);
         }
+
+        // 扣除用户余额
+        userIntegralDtoFinal.setUpdateTime(new Date());
+        UserIntegral userIntegral = new UserIntegral();
+        BeanUtils.copyProperties(userIntegralDtoFinal, userIntegral);
+        UserIntegralDto userIntegralDtoUpdate = userService.updateIntegral(userIntegral);
+        if (null != userIntegralDtoUpdate) {
+          log.info("更新用户积分成功");
+        }
+        return null;
       } catch (Exception e) {
         log.warn("下载文件异常:{}", e);
       } finally {
@@ -108,17 +117,12 @@ public class DownloadController {
           if (fis != null) {
             fis.close();
           }
+          if (os != null) {
+            os.close();
+          }
         } catch (IOException e) {
           log.warn("关闭流文件异常:{}", e);
         }
-      }
-      // 扣除用户余额
-      userIntegralDtoFinal.setUpdateTime(new Date());
-      UserIntegral userIntegral = new UserIntegral();
-      BeanUtils.copyProperties(userIntegralDtoFinal, userIntegral);
-      UserIntegralDto userIntegralDtoUpdate = userService.updateIntegral(userIntegral);
-      if (null != userIntegralDtoUpdate) {
-        log.info("更新用户积分成功");
       }
     }
     return null;
